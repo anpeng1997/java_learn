@@ -6,6 +6,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+/**
+ * @author pengan
+ * execute query demo
+ *
+ */
 public class ExecuteQueryDemo {
 
 	public static void main(String[] args) {

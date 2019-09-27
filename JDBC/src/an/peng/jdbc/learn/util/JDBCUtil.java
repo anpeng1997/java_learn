@@ -18,12 +18,12 @@ public class JDBCUtil {
 	private static String password;
 	private static String driver;
 	static {
-
 		try {
 			//获取配置文件夹的目录
 			ClassLoader classLoader = JDBCUtil.class.getClassLoader();
 			URL u = classLoader.getResource("JDBC.properties");
 			String propertiesPath = u.getPath();
+			//获取配置，键值对
 			Properties prop = new Properties();
 			prop.load(new FileReader(propertiesPath));
 			url = prop.getProperty("url");

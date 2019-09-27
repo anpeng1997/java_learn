@@ -1,0 +1,41 @@
+1.数据库连接池：
+	连接池就是一个容器，存放数据库连接的容器
+	
+2.实现：
+	1.实现了标准接口：DataSource -- javax.sql包下的
+		1.方法
+			getConnection();
+			Connection.close();如果连接对象是从连接池中获取的，那么close就不是释放连接对象，而是将连接对象归还给连接池
+	2.一般我们不会去实现它，又数据库厂商来实现，我们直接使用即可	
+		1.c3p0
+		2.Druid:阿里巴巴提供
+		
+3.数据库连接池jar包：
+	1.C3P0
+		步骤：
+			1.下载所需jar包并导入: c3p0-0.9.5.2.jar , mchange-commons-java-0.2.11.jar,
+				还有 mysql的驱动包--   mysql-connector-java-5.1.48-bin.jar
+			2.定义配置文件：
+				名称：c3p0.properties 或者 c3p0-config.xml
+				路径：直接放在src文件夹下
+			3.创建核心对象，数据库连接池对象 new ComboPooledDataSource();
+			4.获取连接 getConnection
+	
+	2.Druid - 阿里开发
+		步骤：
+			1.下载所需 的jar包并导入 druid-1.1.0.jar
+			2.定义配置文件：
+				名称：properties形式，可以叫任何名称：druid.properties
+				路径：可以放在任意地方，因为是通过代码导入配置文件的，不像C3P0这样约定好的自动读取的
+					但是我们还是放在 src文件根目录下。
+			3.读取配置文件创建properties对象
+			4.获取数据库连接池对象：通过工厂来获取  DruidDataSourceFactory.createDataSource(prop);
+			5.获取连接 getConnection
+
+4.定义工具类
+				
+		
+		
+
+		
+		
