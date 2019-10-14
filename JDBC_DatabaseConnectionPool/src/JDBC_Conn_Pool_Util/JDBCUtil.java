@@ -12,6 +12,11 @@ import javax.sql.DataSource;
 
 import com.alibaba.druid.pool.DruidDataSourceFactory;
 
+/**
+ * @author Admin
+ * 基于druid连接池的jdbcUtil
+ *
+ */
 public class JDBCUtil {
 	private static DataSource dataSourec = null;
 	static {
