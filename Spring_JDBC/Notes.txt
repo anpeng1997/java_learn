@@ -3,7 +3,7 @@
 
     2.步骤：
   		1.导入jar包
-  		2.创建JDBCTemplate对象，依赖于数据原DataSource
+  		2.创建JDBCTemplate对象，依赖于数据源DataSource
   			* JDBCTemplate template = new JDCBTemplate();
   		3.调用JDBCTemplate的方法来执行CRUD的操作
   			update()	执行DML语句，增、删、改。
