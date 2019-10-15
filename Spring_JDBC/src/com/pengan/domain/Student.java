@@ -1,16 +1,16 @@
 package com.pengan.domain;
 
 public class Student {
-    private int id;
+    private Integer id;
     private String name;
-    private int age;
-    private int score;
+    private Integer age;
+    private Integer score;
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -22,24 +22,29 @@ public class Student {
         this.name = name;
     }
 
-    public int getAge() {
+    public Integer getAge() {
         return age;
     }
 
-    public void setAge(int age) {
+    public void setAge(Integer age) {
         this.age = age;
     }
 
-    public int getScore() {
+    public Integer getScore() {
         return score;
     }
 
-    public void setScore(int score) {
+    public void setScore(Integer score) {
         this.score = score;
     }
 
     @Override
     public String toString() {
-        return id+"-"+name+"-"+age+"-"+score;
+        return "Student{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", age=" + age +
+                ", score=" + score +
+                '}';
     }
 }
