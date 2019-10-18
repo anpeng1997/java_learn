@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="no" ?>
+<!--xml第一行必须是声明-->
+
+<!--<?xml-stylesheet type="text/css" href="" ?>-->
+<!--指令，结合css,当写了上面这一条指令时，浏览器则会读取属性值展示出来，并不会显示原有的文档结构-->
+
+<users id="1">
+<!--id唯一-->
+<!--特殊字符需要转义-->
+    <user id="user_01">
+        <name>hahah</name>
+        <age>12</age>
+    </user>
+    <code>
+        <![CDATA[
+        if(a > b) b=a;
+        ]]>
+<!--    <![CDATA[  ]]>    CDATA区，原样展示数据-->
+    </code>
+</users>
+
+

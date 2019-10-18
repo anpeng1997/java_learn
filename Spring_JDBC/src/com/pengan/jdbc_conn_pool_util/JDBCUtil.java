@@ -35,7 +35,7 @@ public class JDBCUtil {
         return dataSourec.getConnection();
     }
 
-    public static DataSource getDataSourec() {
+    public static DataSource getDataSource() {
         return dataSourec;
     }
 
