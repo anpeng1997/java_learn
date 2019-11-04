@@ -1,0 +1,83 @@
+1.Cookie
+        添加cookie方法
+            Cookie cookie = new Cookie("one","onevalue");
+            response.addCookie(cookie);
+        读取cookie方法
+            Cookie[] cookies = request.getCookies();
+            for (Cookie c :
+                    cookies) {
+                String name = c.getName();
+                String value = c.getValue();
+            }
+        设置cookie
+            cookie.setMaxAge(100);
+                //cookie持久化储存 seconds
+                //设置-1：默认值
+                //设置0：删除cookie
+
+        Cookie存储中文问题
+            tomcat 8之后，cookie支持中文，还是不支持特殊字符（所以还是要使用url进行编码）
+            tomcat 8之前，cookie需要对中文进行编码，一般采用URL编码
+                URLEncoder.encode(dateString, "utf-8");//url编码
+                URLDecoder.decode(value, "utf-8");//解码
+
+        Cookie共享问题
+            1.在一台tomcat服务器下部署了多个web项目：
+                1.默认情况下，cookie是不能共享的
+                2. cookie.setPath("/");来设置cookie的取值范围，默认是设置当前虚拟目录
+                    * 如果要共享，则可以设置为 "/"
+
+            2.不同的tomcat服务器间cookie共享问题
+                使用cookie.setDomain("");如果设置一级域名相同，那么多个服务器之间的cookie是可以共享的
+                   例： cookie.setDomain(".baidu.com"); 则：tieba.baidu.com 和 news.baidu.com中的cookie可以共享
+
+2.jsp
+    java server page
+        *一个特殊的页面，其中既可以指定html标签，又可以指定java代码
+
+        原理：
+            本质上就是一个servlet
+
+        脚本
+            <% %> 定义java代码
+            <%! %>定义java代码，里面定义的都是成员变量，或成员方法
+            <%= %>定义java输出代码，会输出到前端页面上
+        JSP的内置对象：
+            在jsp页面中不需要获取和创建，直接可以使用的对象
+            一个有9个内置对象
+                1.request
+                2.response
+                3.out 将数据输出到界面上(尽量使用out输出)
+
+3.Session:
+    服务器端会话技术，在一次会话的多次请求间共享数据，将数据保存在服务器端的对象中。HttpSession
+    获取HttpSession对象
+        HttpSession session=request.getSession();
+    使用HttpSession对象
+        session.getAttribute(String name);
+        seesion.setAttribute(String name,Object obj);
+        seesion.removeAttribute(String name);
+    原理
+        Session的实现是依赖Cookie的
+
+    细节:
+        *当浏览器关闭后，服务器端对应的session就会丢失，原因时浏览器关闭后，名JSESSIONId的Cookie就会被删除，
+        所以当想要浏览器关闭后再打开还能找到对应的Session,我们可以自定义一个cookie保存在客户端
+            HttpSession session = request.getSession();
+            String id = session.getId();
+            Cookie cookie = new Cookie("JSESSIONID", id);
+            cookie.setMaxAge(60 * 60);
+            response.addCookie(cookie);
+
+        *当如服务器正常关闭时，tomcat会自动的进行session的钝化和活化
+            当服务器正常关闭时（注意：这里指的时运行shutdown.bat的正常关闭），tomcat会对session进行钝化处理
+                钝化：将Seesion信息保存在硬盘上（在tomcat服务器安装目录下的work目录下的一个以项目名为名的文件夹，里面会生成一个.ser文件）
+            当服务器启动时
+                活化：会将.ser文件中的数据返序列化成session对象（sessionId，seesionData还是原来，只有它的内存地址不一样）
+        销毁session
+            1.服务器关闭
+            2.session对象调用invalidate()
+            3.session默认30分钟过期，可以在配置文件中修改
+                <session-config>
+                    <session-timeout>30<session-timeout>
+                </session-config>

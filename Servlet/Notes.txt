@@ -1,0 +1,134 @@
+Servlet: server applet
+	*概念：运行在服务端的小程序
+		*Servlet就是一个接口，定义了java类被浏览器访问到（tomcat试别）的规则
+		*将来我们自定义 一个类，实现了Servlet接口，复写方法
+
+	*快速入门
+	    1.创建JavaEE项目
+	    2.定义一个类，实现Servlet接口
+	    3.实现接口中的抽象方法
+	    4.配置Servlet
+	        在web.xml中配置
+	            <servlet>
+                    <servlet-name>demo</servlet-name>
+                    <servlet-class>com.pengan.web.servlet.ServletDemo</servlet-class>
+                </servlet>
+                <servlet-mapping>
+                    <servlet-name>demo</servlet-name>
+                    <url-pattern>/demo</url-pattern>
+                </servlet-mapping>
+
+    Servlet生命周期函数
+        init：只执行一次
+            Servlet默认时在第一次访问时创建
+            <!--配置Servlet的创建时机，默认值为负数(第一次访问时创建)，
+            如果把值设置成整数，在服务器启动时就会创建servlet-->
+            <load-on-startup>5</load-on-startup>
+            *servlet的init方法，只执行一次，说明y一个servlet在内存中只存在一个对象，servlet是单例的
+                *多个用户同时访问时，可能存在线程安全问题
+                *尽量不要在Servlet中定义成员变量。即使定义了成员变量，也不要修改它的值。
+        service
+            每次访问Servlet时，该方法都会被调用一次
+        destroy
+            在Servlet被销毁之前执行，一般用于释放资源
+
+    Servlet 3.0及之后的版本可以直接使用注解的方式进行配置，甚至都不需要Web.xml配置文件
+        在类上直接使用 @WebServlet("虚拟目录"),进行配置
+            //@WebServlet(urlPatterns = "/demo2")
+            //@WebServlet(value = "/demo2")
+            @WebServlet("/demo2")   //最简单的方式
+
+IDEA与tomcat的相关配置
+    1.IDEA会为每一个tomcat部署的项目单独建立一份配置文件
+    2.WEB-INF目录下的资源不能被浏览器直接访问
+    3.断点调试：使用“小虫子”按钮 debug 启动
+
+Servlet:
+    继承体系：
+        Servlet
+           ↓
+        GenericServlet --抽象类
+           ↓
+        HttpServlet   --抽象类
+
+        *GenericServlet:将Servlet其它的方法做了空实现，只将service()方法作为抽象
+            所以继承GenericServlet时，只需要事项service()方法即可
+
+        *HttpServlet:对http协议的封装，简化操作（不用我们自己再去判断http操作）
+            重写 doGet doPost方法
+    相关配置：
+        urlpartten:Servlet访问路径
+            1.可以定义多个访问路径，传递一个String数组 @WebServlet({"/aaaa","/bbbbb"})
+            2.路径定义规则
+                1./XXX
+                2./xxx/xxx:多层目录，目录结构
+                3.*.do
+
+Servlet Request对象:
+        获取请求行数据：
+            System.out.println("请求方式"+request.getMethod());
+            System.out.println("虚拟目录路径："+request.getContextPath());
+            System.out.println("servlet路径"+request.getServletPath());
+            System.out.println("uri:统一资源标识符"+request.getRequestURI());
+            System.out.println("url：统一资源定位符："+request.getRequestURL());
+            System.out.println("请求的IP："+request.getRemoteAddr());
+        获取所有的请求头
+            Enumeration<String> headers = request.getHeaderNames();
+            while (headers.hasMoreElements())
+            {
+                String name = headers.nextElement();
+                System.out.println(name+":"+request.getHeader(name));
+            }
+        获取请求体：get和post方式获取参数值方法一样
+                //根据参数名获取参数值
+                //System.out.println("name:" + request.getParameter("name"));
+                //获取所有的参数名
+                System.out.println("~~~~~~~~~names~~~~~~~~~~~~~");
+                Enumeration<String> parameterNames = request.getParameterNames();
+                while (parameterNames.hasMoreElements()) {
+                    System.out.println(parameterNames.nextElement());
+                }
+                //获取map参数集合
+                System.out.println("~~~~~~~ParameterMap:~~~~~~~~~~~~");
+                Map<String, String[]> parameterMap = request.getParameterMap();
+                Set<String> keys = parameterMap.keySet();
+                for (String s : keys) {
+                    System.out.println(s + ":  " + parameterMap.get(s)[0]);
+                }
+
+        设置编码，否则post请求中中文参数会乱码，但在tomcat 8之后，get请求乱码就解决了
+                request.setCharacterEncoding("utf-8");
+        服务器内部资源的跳转
+                 request.getRequestDispatcher("uri").forward(request,response);
+                 特点：
+                    1.地址栏内地址不变
+                    2.只能转发当前服务器内部资源
+                    3.转发是一次请求
+        数据共享
+                 request.setAttribute("attribute","hello");
+                 request.getAttribute();
+                 request.removeAttribute();
+
+        ServletContext
+            request.servletContext();
+
+         BeanUtils工具类，用于简化数据对象的封装
+            *用于封装JavaBean类
+            1.JavaBean:标准的java类
+                1.要求：
+                    1.类必须被public修饰
+                    2.必须提供空参的构造函数
+                    3.成员变量必须使用private修饰符
+                    4.提供公共的setter和getter方法
+            2.概念：
+                成员变量:被声明为私有的变量
+                属性：setter和getter方法截取后的产物
+                    例如：getUserName() -> UserName -> username
+
+            3.方法
+                1.setProperty(Object bean,String name,String value)
+                2.getProperty(String name)
+                name参数为属性名的get、set后面的名称
+                3.populate
+
+

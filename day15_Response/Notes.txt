@@ -1,0 +1,29 @@
+Response
+    1.重定向
+        1.简单的方式
+         response.sendRedirect("/demo2");
+        2.原理
+         //设置相应码
+          response.setStatus(302);
+         //设置报文头
+          response.setHeader("localhost","/demo2");
+         *注意：从定向后，域对象不能共享，而转发（forward）则是可以共享的
+         *request.servletContext()，动态的获取虚拟目录
+    2.设置相应流编码
+        response.setContextType("text/html;charset=utf-8");
+
+    3. 获取字符流
+        response.getWriter().write("");
+    4.获得字节输出流
+       response.getOutputStream().write("你好啊".getBytes("utf-8"));
+       设置成utf-8后，还要设置相应的流编码
+
+ ServletContext:
+     String mime = servletContext.getMimeType("a.jpg");//获得文件mime类型  image/jpeg
+     servletContext.setAttribute("name","123123"); //设置一个全容器共享的对象
+
+     String aPath = servletContext.getRealPath("/a.txt");//获取web根目录下文件绝对路径
+     String bPath = servletContext.getRealPath("/WEB-INF/b.txt");//获取web目录下WEB-INF下的文件绝对路径
+     String cPath = servletContext.getRealPath("/WEB-INF/classcs/c.txt");//src目录下的资源根目录
+                            ↓
+     String cPath2 = ResponseDemo.class.getClassLoader().getResource("c.txt").getPath(); //只能获取src下资源的路径
