@@ -1,0 +1,87 @@
+JSP：
+    1.指令
+        作用：用于配置JSP页面，导入资源文件
+        格式：
+            <%@ 指令名称 属性名=属性值 ....%>
+        分类：
+            1.page :配置jsp页面的
+                <%@ page contentType="text/html;charset=UTF-8" import="" pageEncoding="utf-8" errorPage="500.jsp" language="java" %>
+                *contentType:等同于response.setContentType(),设置响应体的mime类型以及字符集
+                *import 导包
+                *errorPage 当页面发生错误时，会自动跳转到指定页面
+                *isErrorPage 标志当前页面是否时错误页面，如果设置为true,则可以使用内置对象exception
+            2.include :导入页面资源，将页面嵌入到该处
+                <%@ include file="Header.jsp"%>
+            3.taglib :导入资源
+                <%@ taglib prefix="c" uri="" %>
+                 *prefix 前缀，自己定义的，下面要使用到它的tag要用该前缀开头
+
+        2.注释
+            <%-- --%>
+        3.内置对象
+            在jsp页面中不需要创建的对象，一共有9个内置对象
+            pageContext
+            request
+            response
+            session
+            application
+            out
+            exception
+            page
+            config
+
+    2.EL 表达式 expression language
+        1.语法
+            ${ }
+            \${ } 原样输出，标志着不是EL表达式
+        2.运算
+            算数运算符：+ - * /(div) %(mod)
+            比较运算符：< > <= >= == !=
+            逻辑运算符： &&(and) ||(or) !(not)
+            空算法符：empty
+                用户判断字符串、集合、数组对象是否为null并且长度为0
+                ${empty list}
+        3.获取值
+            EL表达式只能从域对象中获取值
+                *域名称
+                    pageScope  --> pageContext
+                    requestScope --> request
+                    sessionScope --> session
+                    applicationScope --> application (ServletContext)
+                语法
+                    ${域名.键值} 从指定的域中获取指定的键值
+                    ${键值} 依次从最小的域中查找是否有该键对应的值，直到找到为止
+
+                获取对象，List，Map
+                    1.对象 ${域名称.键名.属性名}
+                        本质上会调用对象的 getter方法
+                    2.list集合 ${域名称.键名[索引]}
+                    3.map集合 ${域名称.键名.key名称}  或者  ${域名称.键名["key名称"]}
+
+        3.隐式对象
+            pageContext 可以用来获得 request,response,session,out等对象
+             ${pageContext.request.contextPath} //动态获取虚拟目录
+
+
+    3.JSTL
+        JavaServer Page Tag Library
+        用于简化和替换jsp页面上的java代码
+
+        1.使用
+            导入jar包，有4个
+            在jsp页面引入标签库 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> *注意（uri地址不能引用错）
+
+        2.常用标签
+            <c:if test="true">
+                    <h1>hahah</h1>
+            </c:if>
+
+            <c:forEach items="${strings}" varStatus="i" var="s">
+                    ${i.index}------${i.count}------${s}
+            </c:forEach>
+
+            <c:choose>
+                    <c:when test="${i == 1}"></c:when>
+                    <c:when test="${i == 2}"></c:when>
+                    <c:when test="${i == 3}"></c:when>
+            </c:choose>

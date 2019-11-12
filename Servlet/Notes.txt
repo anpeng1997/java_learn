@@ -104,7 +104,7 @@ Servlet Request对象:
                     1.地址栏内地址不变
                     2.只能转发当前服务器内部资源
                     3.转发是一次请求
-        数据共享
+        数据共享 （在一次request中共享数据）
                  request.setAttribute("attribute","hello");
                  request.getAttribute();
                  request.removeAttribute();
@@ -129,6 +129,7 @@ Servlet Request对象:
                 1.setProperty(Object bean,String name,String value)
                 2.getProperty(String name)
                 name参数为属性名的get、set后面的名称
-                3.populate
+                3.populate()
+	填充对象，在servlet中一般先使用request.getParameterMap();获取参数的集合，当作该方法的第二个参数，第一个参数则为要填充的对象
 
 
