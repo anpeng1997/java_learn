@@ -4,7 +4,7 @@ import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import java.io.IOException;
 
-@WebFilter(value = "/*",dispatcherTypes = { DispatcherType.ASYNC.REQUEST,DispatcherType.FORWARD })
+//@WebFilter(value = "/*",dispatcherTypes = { DispatcherType.REQUEST,DispatcherType.FORWARD })
 public class filterDemo1 implements Filter {
 
     @Override
