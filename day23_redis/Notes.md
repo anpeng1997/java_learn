@@ -1,5 +1,6 @@
-##Redis
-####java中来操作redis的jar包：`jedis`
+## Redis
+
+#### java中来操作redis的jar包：`jedis`
 * 入门使用：
     1. 导入两个jar包：
         1. `commons-pool2-2.4.2.jar`
@@ -36,4 +37,4 @@
    //归还连接至连接池
    resource.close();
     ```
-###JedisUtil类的创建
+### JedisUtil类的创建
